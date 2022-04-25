@@ -1,4 +1,4 @@
-#Solution exercice
+## Solution exercice
 The main idea of my solution is to consider the whole process as a state machine. 
 <a href="https://ibb.co/v11G6HY"><img src="https://i.ibb.co/y001cXS/Screen-Shot-2022-04-23-at-6-07-59-PM.png" alt="Screen-Shot-2022-04-23-at-6-07-59-PM" border="0" /></a>
 - PENDING to PROGRESS : happens when a transaction is being handled (this is so that we don't charge twice a costumer if our server gets down while provider.charge() is charged the client
@@ -8,16 +8,16 @@ The main idea of my solution is to consider the whole process as a state machine
 --     ERROR_CURRENCY: retry once with the right currency value
 --     ERROR_NOT_FOUND: don't retry. need Investigation ( wrong data input, etc.)
 
-#Implementation
+## Implementation
 - I have exposed a rest endpoint to process a single Invoice (test purpose)
 - I used the fixedRateTimer from the Kotlin library to schedule a process
 - retries have been implemented using try-catch statement
 
-#Improvement
+## Improvement
 - Add Multi-threading to handle many invoices at the same time if perfomance is an issue.
 - Unit-test should be more exhaustive.
 - Although this solution works well, in a production environnement, I would have used a Pub/Sub mechanism like Kafka to handle an invoice as it's known to be fault-tolerant and has a good mechanism to replay transactions instead of implementing my own try-catch-retry mechanism.
-#Discussion
+## Discussion
 - I had fun playing with this exercise. It took me the whole weekend to set up the environment, think about it and implement/run/test/document it 
 
 

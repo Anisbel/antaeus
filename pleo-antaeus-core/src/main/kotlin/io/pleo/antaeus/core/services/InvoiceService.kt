@@ -6,6 +6,7 @@ package io.pleo.antaeus.core.services
 
 import io.pleo.antaeus.core.exceptions.InvoiceNotFoundException
 import io.pleo.antaeus.data.AntaeusDal
+import io.pleo.antaeus.models.Currency
 import io.pleo.antaeus.models.Invoice
 import io.pleo.antaeus.models.InvoiceStatus
 
@@ -23,5 +24,8 @@ class InvoiceService(private val dal: AntaeusDal) {
     }
     fun updateInvoiceStatus(id: Int,paymentStatus: InvoiceStatus): Invoice {
         return dal.updateInvoiceStatus(id,paymentStatus) ?: throw InvoiceNotFoundException(id)
+    }
+    fun updateInvoiceCurrency(id: Int,currency: Currency): Int {
+        return dal.updateInvoiceCurrency(id,currency) ?: throw InvoiceNotFoundException(id)
     }
 }

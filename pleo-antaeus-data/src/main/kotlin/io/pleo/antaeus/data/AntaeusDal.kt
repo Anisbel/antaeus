@@ -97,4 +97,13 @@ class AntaeusDal(private val db: Database) {
                     .map { it.toInvoice() }
         }
     }
+    fun updateInvoiceCurrency(id: Int, currency: Currency): Int? {
+        println("Update invoice $id to currency ${currency.toString()}")
+        return transaction(db) {
+            InvoiceTable
+                    .update({ InvoiceTable.id.eq(id) }) {
+                        it[this.currency] = currency.toString()
+                    }
+        }
+    }
 }

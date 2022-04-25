@@ -1,4 +1,26 @@
-#
+#Solution exercice
+The main idea of my solution is to consider the whole process as a state machine. 
+<a href="https://ibb.co/v11G6HY"><img src="https://i.ibb.co/y001cXS/Screen-Shot-2022-04-23-at-6-07-59-PM.png" alt="Screen-Shot-2022-04-23-at-6-07-59-PM" border="0" /></a>
+- PENDING to PROGRESS : happens when a transaction is being handled (this is so that we don't charge twice a costumer if our server gets down while provider.charge() is charged the client
+- PROGRESS to FAILED : happens when a customer doesn't have enough money or any business-related reason. In this case, I retry once a day.
+- PROGRESS to ERROR : this happens when we have an exception that doesn't allow us to charge the client. Depending on the ERROR, we either :
+--     ERROR_NETWORK: retry 3 times for transient error 
+--     ERROR_CURRENCY: retry once with the right currency value
+--     ERROR_NOT_FOUND: don't retry. need Investigation ( wrong data input, etc.)
+
+#Implementation
+- I have exposed a rest endpoint to process a single Invoice (test purpose)
+- I used the fixedRateTimer from the Kotlin library to schedule a process
+- retries have been implemented using try-catch statement
+
+#Improvement
+- Add Multi-threading to handle many invoices at the same time if perfomance is an issue.
+- Unit-test should be more exhaustive.
+- Although this solution works well, in a production environnement, I would have used a Pub/Sub mechanism like Kafka to handle an invoice as it's known to be fault-tolerant and has a good mechanism to replay transactions instead of implementing my own try-catch-retry mechanism.
+#Discussion
+- I had fun playing with this exercise. It took me the whole weekend to set up the environment, think about it and implement/run/test/document it 
+
+
 ## Antaeus
 
 Antaeus (/ænˈtiːəs/), in Greek mythology, a giant of Libya, the son of the sea god Poseidon and the Earth goddess Gaia. He compelled all strangers who were passing through the country to wrestle with him. Whenever Antaeus touched the Earth (his mother), his strength was renewed, so that even if thrown to the ground, he was invincible. Heracles, in combat with him, discovered the source of his strength and, lifting him up from Earth, crushed him to death.
